@@ -54,7 +54,7 @@ namespace WebApiEksempel.Controllers
         {
             var newitem = _TodoService.CreateTodo(todoItem);
 
-            return CreatedAtRoute($"item/{newitem.Id}",newitem);
+            return Created($"/api/item/{newitem.Id}",newitem);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace WebApiEksempel.Controllers
 
             if (updatedItem != null)
             {
-                return AcceptedAtRoute($"item/{updatedItem.Id}", updatedItem);
+                return Accepted($"item/{updatedItem.Id}", updatedItem);
             }
             else
             {
