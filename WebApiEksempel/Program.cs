@@ -17,8 +17,10 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "Todo Api",
         Description = "A simple todo api",
-        Contact = new OpenApiContact() { Name = "Jakob" }
+        Contact = new OpenApiContact() { Name = "EUC Syd" , Url = new Uri("https://www.eucsyd.dk/") }
     });
+
+
 
 });
 
