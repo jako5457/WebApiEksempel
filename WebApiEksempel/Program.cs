@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using WebApiEksempel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,8 @@ builder.Services.AddSwaggerGen(options =>
         Contact = new OpenApiContact() { Name = "EUC Syd" , Url = new Uri("https://www.eucsyd.dk/") }
     });
 
-
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
 });
 

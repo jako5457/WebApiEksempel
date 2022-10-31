@@ -31,6 +31,8 @@ namespace WebApiEksempel.Controllers
         /// <returns>Result</returns>
         [HttpGet]
         [Route("item/{Id}")]
+        [ProducesResponseType(StatusCodes.Status200OK,Type = typeof(TodoItem))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetItemById(int Id)
         {
             var todo = _TodoService.GetTodo(Id);
@@ -50,6 +52,8 @@ namespace WebApiEksempel.Controllers
         /// <returns>The route the item is created at</returns>
         [HttpPost]
         [Route("create")]
+        [ProducesResponseType(StatusCodes.Status201Created,Type = typeof(TodoItem))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult CreateItem(TodoItem todoItem)
         {
             var newitem = _TodoService.CreateTodo(todoItem);
@@ -64,6 +68,8 @@ namespace WebApiEksempel.Controllers
         /// <returns>A result of the action</returns>
         [HttpDelete]
         [Route("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteItem(int id)
         {
           if(_TodoService.DeleteTodo(id))
@@ -83,6 +89,8 @@ namespace WebApiEksempel.Controllers
         /// <returns>Route of the updated item</returns>
         [HttpPut]
         [Route("update")]
+        [ProducesResponseType(StatusCodes.Status202Accepted,Type = typeof(TodoItem))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult UpdateItem(TodoItem todoItem)
         {
             var updatedItem = _TodoService.UpdateTodo(todoItem);
