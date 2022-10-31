@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using WebApiEksempel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,18 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<ITodoService, TodoService>();
 
-builder.Services.AddEndpointsApiExplorer(); // ADDED
-builder.Services.AddSwaggerGen(); // ADDED
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Todo Api",
+        Description = "A simple todo api",
+        Contact = new OpenApiContact() { Name = "Jakob" }
+    });
+
+});
 
 var app = builder.Build();
 
@@ -18,8 +29,8 @@ var app = builder.Build();
 #region Swagger Pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // ADDED
-    app.UseSwaggerUI(); // ADDED
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 #endregion
 
