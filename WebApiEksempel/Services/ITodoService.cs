@@ -11,7 +11,7 @@ namespace WebApiEksempel.Services
 
         public TodoItem UpdateTodo(TodoItem item);
 
-        public bool DeleteTodo(TodoItem item);  
+        public bool DeleteTodo(int Id);  
 
         public TodoItem? GetTodo(int id);
     }
