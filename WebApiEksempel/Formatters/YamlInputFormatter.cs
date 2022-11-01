@@ -5,10 +5,9 @@ using System.Text;
 
 namespace WebApiEksempel.Formatters
 {
-    public class YamlOutputFormatter : TextOutputFormatter
+    public class YamlInputFormatter : TextInputFormatter
     {
-
-        public YamlOutputFormatter()
+        public YamlInputFormatter()
         {
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/x-yaml"));
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("application/x-yaml"));
@@ -17,19 +16,23 @@ namespace WebApiEksempel.Formatters
             SupportedEncodings.Add(Encoding.Unicode);
         }
 
-        public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        public override Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
             var httpContext = context.HttpContext;
             var serviceProvider = httpContext.RequestServices;
             var logger = serviceProvider.GetRequiredService<ILogger<YamlOutputFormatter>>();
 
             var serializer = new Serializer();
-            string serialized = serializer.Serialize(context.Object);
 
-            logger.LogInformation("Serializing response to Yaml.");
-            httpContext.Response.WriteAsync(serialized);
+            logger.LogInformation("Desrializing from Yaml");
+            object? obj = serializer.Deserialize(httpContext.Request.Body,context.ModelType);
 
-            return Task.CompletedTask;
+            if (obj == null)
+            {
+                return InputFormatterResult.FailureAsync();
+            }
+            
+            return InputFormatterResult.SuccessAsync(obj);
         }
     }
 }
