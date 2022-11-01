@@ -1,13 +1,17 @@
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using WebApiEksempel.Formatters;
 using WebApiEksempel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers()
-                    .AddXmlSerializerFormatters(); // Add Xml Sericalizer
+builder.Services.AddControllers(options =>
+{
+    options.OutputFormatters.Add(new YamlOutputFormatter());
+})
+.AddXmlSerializerFormatters(); // Add Xml Sericalizer
 
 builder.Services.AddSingleton<ITodoService, TodoService>();
 
